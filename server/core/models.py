@@ -1,9 +1,11 @@
 from django.db import models
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 
 class Tag(models.Model):
     title = models.CharField(
+        _('tag title'),
         max_length=50,
         blank=False,
         null=False
@@ -20,7 +22,14 @@ class Post(models.Model):
     )
 
     tag = models.ManyToManyField(Tag)
-    title = models.CharField(max_length=200, blank=False, null=False)
+
+    title = models.CharField(
+        _("post title"),
+        max_length=200,
+        blank=False,
+        null=False
+    )
+
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
