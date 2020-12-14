@@ -12,7 +12,7 @@ class PostViewSet(ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsOwner, IsAuthenticatedOrReadOnly)
     serializer_class = PostSerializer
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().select_related('owner')
 
 
 class CommentViewSet(ModelViewSet):

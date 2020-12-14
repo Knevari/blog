@@ -4,9 +4,20 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    avatar = models.ImageField(upload_to='images', null=True, blank=True)
+
+    def delete(self):
+        self.user.delete()
+
+
 class OwnerModel(models.Model):
     owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        UserProfile,
         on_delete=models.CASCADE
     )
 
@@ -36,6 +47,12 @@ class Post(OwnerModel):
         null=False
     )
 
+    likes = models.IntegerField(
+        _("likes"),
+        default=0,
+        blank=True
+    )
+
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -54,14 +71,3 @@ class Comment(OwnerModel):
 
     def __str__(self):
         return str(self.content)[:30]
-
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
-    )
-    avatar = models.ImageField(upload_to='images', null=True, blank=True)
-
-    def delete(self):
-        self.user.delete()

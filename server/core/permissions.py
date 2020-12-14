@@ -5,7 +5,6 @@ class IsOwner(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
             return True
-
         if 'owner' in request.data:
             return request.user.id == request.data['owner']
 

@@ -5,22 +5,6 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 
-class PostSerializer(serializers.ModelSerializer):
-    owner = serializers.HiddenField(
-        default=serializers.CurrentUserDefault()
-    )
-
-    class Meta:
-        model = Post
-        fields = '__all__'
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = '__all__'
-
-
 class AdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -30,10 +14,11 @@ class AdminSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     user = AdminSerializer()
+    username = serializers.CharField(source="user_set__username")
 
     class Meta:
         model = UserProfile
-        fields = ['user', 'avatar']
+        fields = ['user', 'username']
 
     def create(self, validated_data):
         user = validated_data.pop('user')
@@ -46,3 +31,19 @@ class UserSerializer(serializers.ModelSerializer):
             user_obj.save()
             return UserProfile.objects.create(user=user_obj, **validated_data)
         return None
+
+
+class PostSerializer(serializers.ModelSerializer):
+    expandable_fields = {
+        "owner": (UserSerializer, {"source": "owner"}),
+    }
+
+    class Meta:
+        model = Post
+        fields = '__all__'
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'
