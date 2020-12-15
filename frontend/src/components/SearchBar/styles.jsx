@@ -10,6 +10,7 @@ export const SearchContainer = styled.div`
     background-color: #1e2328;
     border-radius: 6px;
     margin-top: 12px;
+    border: 1px solid transparent;
     /* border: 1px solid rgba(66, 66, 66, 0.4);
     border-radius: 4px;
     cursor: pointer;
@@ -29,6 +30,7 @@ export const SearchInput = styled.input`
     border: none;
     font-size: 1.2em;
     color: white;
+    outline: none;
     /* appearance: none; */
     background-color: transparent;
 

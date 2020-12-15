@@ -8,6 +8,8 @@ import axios from 'axios';
 
 import Post from '../../components/Post'
 import SearchBar from '../../components/SearchBar'
+import LoginModal from '../../components/LoginModal'
+
 const Posts = () => {
     const containerRef = useRef(null);
     const URL = 'http://localhost:8000/posts/'
@@ -15,19 +17,17 @@ const Posts = () => {
     const searchValue = useSelector(state => state.search.searchValue);
 
     const { isLoading, isError, data: posts, refetch } = useQuery("posts", async () => {
-        const { data } = await axios.get(URL+`?search=${searchValue}`)
+        const { data } = await axios.get(URL + `?search=${searchValue}`)
         return data
-    });
+    }, { enabled: false, });
 
 
-    useEffect(() => {
-        console.log(searchValue)
-        refetch()
-    }, [searchValue])
+    useEffect(refetch, [searchValue])
 
 
     return (
         <PostsContainer ref={containerRef}>
+            <LoginModal />
             <SearchBar />
             {posts && posts.results.map(({
                 id,
