@@ -1,4 +1,4 @@
-import { NavContainer, NavBrand, Center, NavItem } from './styles'
+import { NavContainer, NavBrand, Center, NavItem, NavItems } from './styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -8,11 +8,11 @@ const NavBar = () => {
         <NavContainer>
             <Center>
                 <NavBrand>Blogs</NavBrand>
-                <div>
+                <NavItems>
                     <NavItem to='/'>Sobre</NavItem>
                     <NavItem to='/' auth>Login</NavItem>
                     <NavItem to='/' auth>Registro</NavItem>
-                </div>
+                </NavItems>
             </Center>
         </NavContainer>)
 

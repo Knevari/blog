@@ -7,7 +7,8 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
         background-color: #000000;
         font-family: 'IBM Plex Sans', sans-serif;
-        
+        overflow-x: hidden;
+
         & > * {
             box-sizing: border-box;
         }
