@@ -12,13 +12,21 @@ class AdminSerializer(serializers.ModelSerializer):
                   'groups', 'is_staff', 'is_superuser']
 
 
-class UserSerializer(serializers.ModelSerializer):
-    user = AdminSerializer()
-    username = serializers.CharField(source="user_set__username")
+class UserProfileSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source="user")
+    email = serializers.CharField(source="user")
 
     class Meta:
         model = UserProfile
-        fields = ['user', 'username']
+        fields = ("id", "username", "email", "avatar")
+
+
+class UserSerializer(serializers.ModelSerializer):
+    user = AdminSerializer()
+
+    class Meta:
+        model = UserProfile
+        fields = ['user']
 
     def create(self, validated_data):
         user = validated_data.pop('user')
@@ -34,13 +42,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    expandable_fields = {
-        "owner": (UserSerializer, {"source": "owner"}),
-    }
+    author = UserProfileSerializer(source="owner")
 
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = ("author", "id", "title", "content",
+                  "likes", "tag", "created_at")
 
 
 class CommentSerializer(serializers.ModelSerializer):

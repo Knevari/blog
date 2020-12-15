@@ -11,7 +11,7 @@ const Posts = () => {
     const [postsOffset, setPostsOffset] = useState(0);
 
     const { isLoading, isError, data: posts } = useQuery("posts", async () => {
-        const response = await (await fetch(`http://localhost:8000/posts/`)).json()
+        const response = await (await fetch(`http://localhost:8000/posts?limit=2`)).json()
         setPostsOffset(oldOffset => oldOffset + response.count);
         return response;
     });
