@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { PostsContainer } from './styles'
 import { useQuery } from 'react-query';
 
-import InfiniteScroll from 'react-infinite-scroller';
+// import InfiniteScroll from 'react-infinite-scroller';
 
 import Post from '../../components/Post';
 
@@ -11,7 +11,7 @@ const Posts = () => {
     const [postsOffset, setPostsOffset] = useState(0);
 
     const { isLoading, isError, data: posts } = useQuery("posts", async () => {
-        const response = await (await fetch(`http://localhost:8000/posts?limit=2`)).json()
+        const response = await (await fetch(`http://localhost:8000/posts/`)).json()
         setPostsOffset(oldOffset => oldOffset + response.count);
         return response;
     });
@@ -19,12 +19,16 @@ const Posts = () => {
     return (
         <PostsContainer ref={containerRef}>
             {posts && posts.results.map(({
-                title, 
+                id,
+                title,
+                author: { username },
                 content, 
                 likes
             }) => (
-                <Post 
+                <Post
+                    key={id}
                     title={title}
+                    username={username}
                     content={content.slice(0, 400)}
                     likes={likes}
                 />

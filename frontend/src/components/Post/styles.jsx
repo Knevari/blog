@@ -34,7 +34,11 @@ export const OverlayContainer = styled.div`
     position: relative;
 `;
 
-export const PostOwner = styled.div``;
+export const PostOwner = styled.div`
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 4px;
+`;
 
 export const PostTitle = styled.div`
     color: white;

@@ -1,5 +1,6 @@
 import {
     PostContainer,
+    PostOwner,
     PostTitle,
     PostContent,
     PostActions,
@@ -12,9 +13,9 @@ import {
 
 import { faComments, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
-const Post = ({ title, content, likes }) => (
+const Post = ({ title, content, likes, username }) => (
     <PostContainer>
-        {/*<PostOwner>{owner}</PostOwner>*/}
+        <PostOwner>Postado por {username}</PostOwner>
         <OverlayContainer>
             <PostTitle>{title}</PostTitle>
             <PostContent>{content}</PostContent>
