@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework.authentication import TokenAuthentication
+from rest_framework import filters
 
 from core.models import Post, Comment, UserProfile
 from core.serializers import PostSerializer, CommentSerializer, UserSerializer
@@ -13,6 +14,8 @@ class PostViewSet(ModelViewSet):
     permission_classes = (IsOwner, IsAuthenticatedOrReadOnly)
     serializer_class = PostSerializer
     queryset = Post.objects.all().select_related('owner')
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title', 'tag__title']
 
 
 class CommentViewSet(ModelViewSet):

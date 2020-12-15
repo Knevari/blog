@@ -1,8 +1,14 @@
-from core.models import Post, Comment, UserProfile
+from core.models import Post, Comment, UserProfile, Tag
 from rest_framework import serializers
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from django.conf import settings
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['title', 'slug', 'color']
 
 
 class AdminSerializer(serializers.ModelSerializer):
@@ -43,6 +49,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     author = UserProfileSerializer(source="owner")
+    tag = TagSerializer(read_only=True, many=True)
 
     class Meta:
         model = Post
