@@ -17,6 +17,7 @@ const customStyles = {
     }
 };
 
+
 const LoginModal = () => {
     var subtitle;
     const [modalIsOpen, setIsOpen] = useState(true);
@@ -30,7 +31,7 @@ const LoginModal = () => {
         // references are now sync'd and can be accessed.
         subtitle.style.color = '#000';
     }
-
+    
     function closeModal() {
         setIsOpen(false);
     }
@@ -47,7 +48,6 @@ const LoginModal = () => {
         >
 
             <h2 ref={_subtitle => (subtitle = _subtitle)}>Login</h2>
-            <button onClick={closeModal}>close</button>
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <label>Username: </label><br/>
@@ -57,6 +57,8 @@ const LoginModal = () => {
                 <br/>
                 <button>Entrar</button>
             </form>
+
+            <button onClick={closeModal}>close</button>
         </Modal>
     )
 }
