@@ -1,13 +1,18 @@
 import { userConstants } from '../reducers/auth';
 
+
 import history from '../../utils/history'
 import APIURL from '../../config/'
 import axios from 'axios';
+import modalActions from './modal';
+
 
 //import { LOGIN_REQUEST,LOGIN_SUCCESS,LOGIN_FAILURE } from '../reducers/auth'
 
 export const login = (username, password) => {
+    
     console.log(username,password);
+
     return async dispatch => {
         dispatch(request({username}));
         try{
@@ -16,8 +21,8 @@ export const login = (username, password) => {
                 password
             });
             localStorage.setItem("token", response.data.token)
-            dispatch(success(response.data.token));
-            history.push('/')
+            dispatch(success(response.data.token));      
+            dispatch(modalActions.toggleModal(false));
         }
         catch(error){
             console.log(error.message);

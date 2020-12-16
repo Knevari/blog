@@ -1,24 +1,38 @@
 import { render } from 'react-dom/cjs/react-dom.development';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { login } from '../../store/actions/auth'
 import { useDispatch, useSelector } from 'react-redux'
+import { ToastProvider, useToasts } from 'react-toast-notifications'
 
-
+import {
+    LoginForm,
+    Input,
+    Title,
+    Label,
+    SubmitButton,
+    FormSet
+} from './styles'
 
 import Modal from 'react-modal';
+import modalActions from '../../store/actions/modal';
 
 
 Modal.setAppElement('#root')
+
 const customStyles = {
     overlay: {
         zIndex: 1000,
         backgroundColor: 'rgba(0, 0, 0, 0.75)'
     },
     content: {
-        width: '400px',
+        width: '450px',
+        height: '348px',
         margin: '0 auto',
-        padding: '8px'
+        padding: '8px',
+        backgroundColor: "#1e2328",
+        border: 'none',
+        boxSizing: 'border-box'
     }
 };
 
@@ -29,42 +43,48 @@ const LoginModal = () => {
 
     const { register, handleSubmit } = useForm();
     const dispatch = useDispatch();
+    const { addToast } = useToasts();
     const modalIsOpen = useSelector(state => state.modal.modalIsOpen);
+    const userLoggedIn = useSelector(state => state.auth.loggedIn); 
 
-    function afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        subtitle.style.color = '#000';
+    function closeModal() {
+        dispatch(modalActions.toggleModal(false));
     }
     
-    function closeModal() {
-        // setIsOpen(false);
-    }
-
+    useEffect( () => {
+        if(userLoggedIn){
+            addToast('Login realizado com sucesso', {appearance: 'success'});
+        }
+    }, [userLoggedIn]);
+    
 
     const onSubmit = data => dispatch(login(data.username, data.password));
-    return (
+        
+    
+        return (
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Example Modal"
+                style={customStyles}
+            >
 
-        <Modal
-            isOpen={modalIsOpen}
-            onAfterOpen={afterOpenModal}
-            onRequestClose={closeModal}
-            contentLabel="Example Modal"
-            style={customStyles}
-        >
+                <Title>Login</Title>
 
-            <h2 ref={_subtitle => (subtitle = _subtitle)}>Login</h2>
+                <LoginForm onSubmit={handleSubmit(onSubmit)}>
+                    <FormSet>
+                        <Label htmlFor="username">Username </Label>
+                        <Input ref={register} type="text" name="username" />
+                    </FormSet>
+                    <FormSet>
+                        <Label htmlFor="password">Password </Label>
+                        <Input ref={register} type="password" name="password" />
+                    </FormSet>
+                    <SubmitButton type="submit">Entrar</SubmitButton>
+                </LoginForm>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <label>Username: </label><br/>
-                <input ref={register} type="text" name="username" /><br/>
-                <label>Password:</label><br/>
-                <input ref={register} type="password" name="password" />
-                <br/>
-                <button type='submit'>Entrar</button>
-            </form>
-
-            <button onClick={closeModal}>close</button>
-        </Modal>
+                {/* <button onClick={closeModal}>close</button> */}
+            </Modal>
     )
 }
 export default LoginModal;

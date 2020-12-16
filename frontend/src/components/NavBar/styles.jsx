@@ -35,8 +35,8 @@ export const NavItems = styled.div`
 
 export const NavItem = styled(Link)`
     font-size: 0.9rem;
-    padding: 8px;
-    border-radius: 8px;
+    padding: 6px;
+    border-radius: 4px;
     color: white;
     outline: none;
     text-decoration: none;
@@ -44,10 +44,10 @@ export const NavItem = styled(Link)`
     &:not(:last-child){
         margin-right: 8px;
     }
-    border: ${props => props.auth ? "solid 1px white" : "none"};
+
+    background-color: ${props => props.auth ?"#777" : "transparent"};
 
     &:hover{
-        opacity: 0.8;
-        text-decoration: underline;
+        opacity: 0.9;
     }
 `;

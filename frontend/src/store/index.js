@@ -12,6 +12,3 @@ export default function configureStore(preloadedState) {
     );
     return store;
 }
-
-login('knevari','123');
-console.log("Cheguei");
