@@ -21,7 +21,7 @@ Modal.setAppElement('#root')
 
 const customStyles = {
     overlay: {
-        zIndex: 1000,
+        zIndex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.75)'
     },
     content: {
@@ -41,7 +41,12 @@ const LoginModal = () => {
     const dispatch = useDispatch();
     const { addToast } = useToasts();
     const modalIsOpen = useSelector(state => state.modal.modalIsOpen);
-    const userSuccessfullyLoggedIn = useSelector(state => state.auth.userSuccessfullyLoggedIn); 
+    
+    const {
+        error,
+        userSuccessfullyLoggedIn,
+        user: {username}
+    } = useSelector(state => state.auth);
 
     function closeModal() {
         dispatch(modalActions.toggleModal(false));
@@ -49,9 +54,12 @@ const LoginModal = () => {
     
     useEffect( () => {
         if (userSuccessfullyLoggedIn) {
-            addToast('Login realizado com sucesso', {appearance: 'success'});
+            addToast(`Bem vindo ${username}`, {appearance: 'success'});
         }
-    }, [userSuccessfullyLoggedIn, addToast]);
+        if (error) {
+            addToast(error, {appearance: 'error'});
+        }
+    }, [error, userSuccessfullyLoggedIn, addToast]);
     
 
     const onSubmit = data => dispatch(login(data.username, data.password));
@@ -78,8 +86,6 @@ const LoginModal = () => {
                     </FormSet>
                     <SubmitButton type="submit">Entrar</SubmitButton>
                 </LoginForm>
-
-                {/* <button onClick={closeModal}>close</button> */}
             </Modal>
     )
 }

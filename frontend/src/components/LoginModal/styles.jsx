@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const Title = styled.h2`
     color: white;
     padding: 0 8px;
+    margin-left: 14px;
 `;
 
 export const LoginForm = styled.form`
@@ -48,6 +49,8 @@ export const SubmitButton = styled.button`
     cursor: pointer;
     font-size: 1.2rem;
     transition: all .2s ease-in-out;
+    user-select: none;
+    outline: 0;
 
     &:hover {
         border: 3px solid #fff;

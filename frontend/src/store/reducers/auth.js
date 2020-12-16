@@ -5,13 +5,16 @@ export const userConstants = {
     LOGOUT: 'USERS_LOGOUT'
 };
 
-let token = localStorage.getItem('token');
+const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
     loggedIn: true,
     loggingIn: false,
-    error: false,
-    user: token
+    error: '',
+    user: {
+        token: user && user.token ? user.token : null,
+        username: null,
+    }
 }
 
 export default function authReducer(state = initialState, action) {
@@ -20,16 +23,22 @@ export default function authReducer(state = initialState, action) {
             return {
                 loggingIn: true,
                 loggedIn: false,
-                user: null,
-                error: false
+                user: {
+                    token: null,
+                    username: null,
+                },
+                error: ''
             };
         }
         case userConstants.LOGIN_SUCCESS: {
             return {
                 loggingIn: false,
                 loggedIn: true,
-                user: action.token,
-                error: false,
+                user: {
+                    token: action.token,
+                    username: action.username,
+                },
+                error: '',
                 userSuccessfullyLoggedIn: true,
             };
         }
@@ -37,16 +46,22 @@ export default function authReducer(state = initialState, action) {
             return {
                 loggingIn: false,
                 loggedIn: false,
-                user: null,
-                error: true
+                user: {
+                    token: null,
+                    username: null,
+                },
+                error: action.error
             };
         }
         case userConstants.LOGOUT: {
             return {
                 loggingIn: false,
                 loggedIn: false,
-                user: null,
-                error: false
+                user: {
+                    token: null,
+                    username: null,
+                },
+                error: ''
             };
         }
         default:
