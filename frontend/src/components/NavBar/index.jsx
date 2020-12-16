@@ -32,6 +32,9 @@ const NavBar = () => {
     function returnHome() {
         history.push("/")
     }
+    function newPost() {
+        history.push("/new_post")
+    }
 
     return (
         <NavContainer>
@@ -40,7 +43,7 @@ const NavBar = () => {
                 <NavItems>
                     {userLoggedIn && (
                         <>
-                            <NavItem>
+                            <NavItem onClick={newPost}>
                                 <NavIcon icon={faEdit} />&nbsp;
                                 <span>Novo Post</span>
                             </NavItem>

@@ -7,7 +7,8 @@ import NavBar from '../components/NavBar'
 
 // Pages
 import Post from './Post';
-import Posts from './Posts'
+import Posts from './Posts';
+import NewPost from './NewPost'
 
 const Pages = () => {
 
@@ -16,6 +17,7 @@ const Pages = () => {
             <NavBar />
             <Switch>
                 <Route exact path="/" exact strict component={Posts}/>
+                <Route exact path="/new_post" component={NewPost}/>
                 <Route path="/post/:id" component={Post} />
             </Switch>
         </Router>
