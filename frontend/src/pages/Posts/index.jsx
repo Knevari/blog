@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { PostsContainer } from './styles'
 import { useQuery } from 'react-query'
+import { Container} from '../../styles'
 import axios from 'axios';
 
 // import InfiniteScroll from 'react-infinite-scroller';
@@ -10,7 +10,7 @@ import Post from '../../components/Post'
 import SearchBar from '../../components/SearchBar'
 import LoginModal from '../../components/LoginModal'
 
-const Posts = () => {
+const Posts = ({ history }) => {
     const containerRef = useRef(null);
     const URL = 'http://localhost:8000/posts/'
 
@@ -24,9 +24,12 @@ const Posts = () => {
 
     useEffect(refetch, [searchValue])
 
+    const goToPost = id => {
+        history.push(`/post/${id}`)
+    }
 
     return (
-        <PostsContainer ref={containerRef}>
+        <Container ref={containerRef}>
             <LoginModal />
             <SearchBar />
             {posts && posts.results.map(({
@@ -37,6 +40,7 @@ const Posts = () => {
                 likes
             }) => (
                     <Post
+                        onClick={() => goToPost(id)}
                         key={id}
                         title={title}
                         username={username}
@@ -44,7 +48,7 @@ const Posts = () => {
                         likes={likes}
                     />
                 ))}
-        </PostsContainer>
+        </Container>
     )
 }
 
