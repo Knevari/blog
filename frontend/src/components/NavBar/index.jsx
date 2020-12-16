@@ -1,4 +1,4 @@
-import { NavContainer, NavBrand, Center, NavItem } from './styles'
+import { NavContainer, NavBrand, Center, NavItem, NavItems } from './styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSelector, useDispatch } from 'react-redux'
 import modalActions from '../../store/actions/modal'
@@ -18,11 +18,11 @@ const NavBar = () => {
         <NavContainer>
             <Center>
                 <NavBrand>Blogs</NavBrand>
-                <div>
+                <NavItems>
                     <NavItem to='/'>Sobre</NavItem>
                     <NavItem onClick={openModal} auth>Login</NavItem>
                     <NavItem to='/' auth>Registro</NavItem>
-                </div>
+                </NavItems>
             </Center>
         </NavContainer>)
 
