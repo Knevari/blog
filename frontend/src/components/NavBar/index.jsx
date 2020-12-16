@@ -1,4 +1,11 @@
-import { NavContainer, NavBrand, Center, NavItem, NavItems } from './styles'
+import {
+    NavContainer,
+    NavBrand,
+    Center,
+    NavIcon,
+    NavItem,
+    NavItems
+} from './styles'
 
 import { logout } from '../../store/actions/auth'
 import modalActions from '../../store/actions/modal'
@@ -6,6 +13,7 @@ import modalActions from '../../store/actions/modal'
 import { useSelector, useDispatch } from 'react-redux'
 
 import history from '../../utils/history'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 const NavBar = () => {
 
@@ -30,7 +38,14 @@ const NavBar = () => {
             <Center>
                 <NavBrand onClick={returnHome}>Blogs</NavBrand>
                 <NavItems>
-                    <NavItem to='/'>Sobre</NavItem>
+                    {userLoggedIn && (
+                        <>
+                            <NavItem>
+                                <NavIcon icon={faEdit} />&nbsp;
+                                <span>Novo Post</span>
+                            </NavItem>
+                        </>
+                    )}
                     {userLoggedIn ? 
                         <NavItem onClick={userLogout} authentication>Logout</NavItem> : 
                         <NavItem onClick={openModal} authentication>Login</NavItem>}

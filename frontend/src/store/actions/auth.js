@@ -1,13 +1,8 @@
 import { userConstants } from '../reducers/auth';
 
-
-import history from '../../utils/history'
 import APIURL from '../../config/'
 import axios from 'axios';
 import modalActions from './modal';
-
-
-//import { LOGIN_REQUEST,LOGIN_SUCCESS,LOGIN_FAILURE } from '../reducers/auth'
 
 export const login = (username, password) => {
     

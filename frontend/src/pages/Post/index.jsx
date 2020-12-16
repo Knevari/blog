@@ -18,8 +18,11 @@ import {
     Meta,
     DateCreated,
     AverageReadingTime,
-    Content
+    Content,
+    ClockIcon
 } from './styles'
+
+import { faClock } from '@fortawesome/free-solid-svg-icons'
 
 function fetchCurrentPost(id) {
     return async () => {
@@ -73,6 +76,7 @@ const Post = ({ match: { params: {id} } }) => {
                             {formatDistance(new Date(post.created_at), new Date(), { locale: ptBR })} atrás
                         </DateCreated>
                         <AverageReadingTime>
+                            <ClockIcon icon={faClock} />&nbsp;
                             {getAvgReadingTime(getNumberOfWords(post.content))} mins
                         </AverageReadingTime>
                     </Meta>

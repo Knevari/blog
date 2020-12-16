@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { login } from '../../store/actions/auth'
 import { useDispatch, useSelector } from 'react-redux'
-import { ToastProvider, useToasts } from 'react-toast-notifications'
+import { useToasts } from 'react-toast-notifications'
 
 import {
     LoginForm,
@@ -38,24 +38,21 @@ const customStyles = {
 
 
 const LoginModal = () => {
-    
-    var subtitle;
-
     const { register, handleSubmit } = useForm();
     const dispatch = useDispatch();
     const { addToast } = useToasts();
     const modalIsOpen = useSelector(state => state.modal.modalIsOpen);
-    const userLoggedIn = useSelector(state => state.auth.loggedIn); 
+    const userSuccessfullyLoggedIn = useSelector(state => state.auth.userSuccessfullyLoggedIn); 
 
     function closeModal() {
         dispatch(modalActions.toggleModal(false));
     }
     
     useEffect( () => {
-        if(userLoggedIn){
+        if (userSuccessfullyLoggedIn) {
             addToast('Login realizado com sucesso', {appearance: 'success'});
         }
-    }, [userLoggedIn]);
+    }, [userSuccessfullyLoggedIn]);
     
 
     const onSubmit = data => dispatch(login(data.username, data.password));

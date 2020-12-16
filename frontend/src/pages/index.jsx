@@ -10,6 +10,7 @@ import Post from './Post';
 import Posts from './Posts'
 
 const Pages = () => {
+
     return (
         <Router history={history}>
             <NavBar />

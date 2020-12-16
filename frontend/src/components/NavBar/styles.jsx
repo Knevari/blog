@@ -52,3 +52,8 @@ export const NavItem = styled(Link)`
         opacity: 0.9;
     }
 `;
+
+export const NavIcon = styled(FontAwesomeIcon)`
+    color: white;
+    font-size: 1.1rem;
+`;

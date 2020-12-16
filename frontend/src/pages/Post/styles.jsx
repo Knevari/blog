@@ -1,7 +1,8 @@
 import styled from 'styled-components'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const PostContainer = styled.div`
-    margin-top: 12px;
+    margin-top: 24px;
     
     & > * {
         color: #f5f5f5;
@@ -38,4 +39,9 @@ export const Content = styled.div`
     font-size: 1.2rem;
     text-align: justify;
     font-weight: 500;
+`;
+
+export const ClockIcon = styled(FontAwesomeIcon)`
+    color: white;
+    font-size: 0.9rem;
 `;
