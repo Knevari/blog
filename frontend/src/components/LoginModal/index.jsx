@@ -1,8 +1,13 @@
 import { render } from 'react-dom/cjs/react-dom.development';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { login } from '../../store/actions/auth'
+import { useDispatch, useSelector } from 'react-redux'
+
+
 
 import Modal from 'react-modal';
+
 
 Modal.setAppElement('#root')
 const customStyles = {
@@ -19,13 +24,12 @@ const customStyles = {
 
 
 const LoginModal = () => {
+    
     var subtitle;
-    const [modalIsOpen, setIsOpen] = useState(true);
-    const { register, handleSubmit } = useForm();
 
-    function openModal() {
-        setIsOpen(true);
-    }
+    const { register, handleSubmit } = useForm();
+    const dispatch = useDispatch();
+    const modalIsOpen = useSelector(state => state.modal.modalIsOpen);
 
     function afterOpenModal() {
         // references are now sync'd and can be accessed.
@@ -33,10 +37,11 @@ const LoginModal = () => {
     }
     
     function closeModal() {
-        setIsOpen(false);
+        // setIsOpen(false);
     }
 
-    const onSubmit = data => console.log(data);
+
+    const onSubmit = data => dispatch(login(data.username, data.password));
     return (
 
         <Modal
@@ -55,7 +60,7 @@ const LoginModal = () => {
                 <label>Password:</label><br/>
                 <input ref={register} type="password" name="password" />
                 <br/>
-                <button>Entrar</button>
+                <button type='submit'>Entrar</button>
             </form>
 
             <button onClick={closeModal}>close</button>

@@ -1,14 +1,15 @@
-import { Route, BrowserRouter } from 'react-router-dom';
+import { Route, Router } from 'react-router-dom';
 
+import history from '../utils/history'
 import Posts from './Posts'
 import NavBar from '../components/NavBar'
 
 const Pages = () => {
     return (
-        <BrowserRouter>
+        <Router history = {history}>
             <NavBar />
-            <Route to="/" component={Posts} />
-        </BrowserRouter>
+            <Route to="/" component={Posts}/>
+        </Router>
     )
 }
 
