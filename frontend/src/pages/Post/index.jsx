@@ -23,6 +23,7 @@ import {
 } from './styles'
 
 import { faClock } from '@fortawesome/free-solid-svg-icons'
+import ScrollToTop from '../../components/ScrollToTop';
 
 function fetchCurrentPost(id) {
     return async () => {
@@ -49,6 +50,7 @@ const Post = ({ match: { params: {id} } }) => {
 
     return (
         <Container>
+            <ScrollToTop />
             {isLoading && (
                 <Center>
                     <Loader
