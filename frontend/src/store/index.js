@@ -1,12 +1,17 @@
 import { createStore, applyMiddleware } from 'redux';
-import thunkMiddleware from 'redux-thunk';
+import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 
+import { login } from './actions/auth' 
+
 export default function configureStore(preloadedState) {
-    const store = crneateStore(
+    const store = createStore(
         rootReducer, 
         preloadedState,
         applyMiddleware(thunk)
     );
     return store;
 }
+
+login('knevari','123');
+console.log("Cheguei");
