@@ -46,6 +46,7 @@ const LoginModal = () => {
     const { addToast } = useToasts();
     const modalIsOpen = useSelector(state => state.modal.modalIsOpen);
     const userLoggedIn = useSelector(state => state.auth.loggedIn); 
+    const userLoginFail = useSelector(state => state.auth.error);
 
     function closeModal() {
         dispatch(modalActions.toggleModal(false));
@@ -55,7 +56,10 @@ const LoginModal = () => {
         if(userLoggedIn){
             addToast('Login realizado com sucesso', {appearance: 'success'});
         }
-    }, [userLoggedIn]);
+        if(userLoginFail){
+            addToast('Login ou senha inválidos', { appearance: 'error'});
+        }
+    }, [userLoggedIn, userLoginFail]);
     
 
     const onSubmit = data => dispatch(login(data.username, data.password));

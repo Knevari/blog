@@ -17,7 +17,9 @@ ReactDOM.render(
       <Provider store={store}>
         <ToastProvider 
           autoDismiss 
-          autoDismissTimeout={2000}
+          autoDismissTimeout={3000}
+          // components= {{ Toast: Snack }}
+          placement="top-center"
         >
           <Pages />
         </ToastProvider>
