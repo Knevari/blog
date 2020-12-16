@@ -13,8 +13,8 @@ import {
 
 import { faComments, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
-const Post = ({ title, content, likes, username }) => (
-    <PostContainer>
+const Post = ({ title, content, likes, username, onClick }) => (
+    <PostContainer onClick={onClick}>
         <PostOwner>Postado por {username}</PostOwner>
         <OverlayContainer>
             <PostTitle>{title}</PostTitle>

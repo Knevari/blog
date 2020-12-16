@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 export const NavContainer = styled.header`
     display: block;
     top: 0;
+    left: 0;
     position: sticky;
     align-items: center;
     justify-content: center;
@@ -18,7 +19,7 @@ export const NavContainer = styled.header`
 `;
 export const NavBrand = styled.div`
     font-size: 1.2em;
-
+    cursor: pointer;
 `;
 export const Center = styled.div`
     width:  800px;
@@ -45,9 +46,14 @@ export const NavItem = styled(Link)`
         margin-right: 8px;
     }
 
-    background-color: ${props => props.auth ?"#777" : "transparent"};
+    background-color: ${props => props.authentication ? "#777" : "transparent"};
 
     &:hover{
         opacity: 0.9;
     }
+`;
+
+export const NavIcon = styled(FontAwesomeIcon)`
+    color: white;
+    font-size: 1.1rem;
 `;

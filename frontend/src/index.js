@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { ToastProvider } from 'react-toast-notifications'
 import GlobalStyle from './styles';
 import configureStore from './store';
-
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 
 const queryClient = new QueryClient();
 const store = configureStore();

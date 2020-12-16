@@ -1,10 +1,19 @@
-import { NavContainer, NavBrand, Center, NavItem, NavItems } from './styles'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useSelector, useDispatch } from 'react-redux'
-import modalActions from '../../store/actions/modal'
-import { logout } from '../../store/actions/auth'
+import {
+    NavContainer,
+    NavBrand,
+    Center,
+    NavIcon,
+    NavItem,
+    NavItems
+} from './styles'
 
-// import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { logout } from '../../store/actions/auth'
+import modalActions from '../../store/actions/modal'
+
+import { useSelector, useDispatch } from 'react-redux'
+
+import history from '../../utils/history'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 const NavBar = () => {
 
@@ -20,14 +29,26 @@ const NavBar = () => {
         dispatch(logout());
     }
     
+    function returnHome() {
+        history.push("/")
+    }
+
     return (
         <NavContainer>
             <Center>
-                <NavBrand>Blogs</NavBrand>
+                <NavBrand onClick={returnHome}>Blogs</NavBrand>
                 <NavItems>
-                    <NavItem to='/'>Sobre</NavItem>
-                    {userLoggedIn ? <NavItem onClick={userLogout} auth>Logout</NavItem> : <NavItem onClick={openModal} auth>Login</NavItem>}
-                    {/* <NavItem to='/' auth>Registro</NavItem> */}
+                    {userLoggedIn && (
+                        <>
+                            <NavItem>
+                                <NavIcon icon={faEdit} />&nbsp;
+                                <span>Novo Post</span>
+                            </NavItem>
+                        </>
+                    )}
+                    {userLoggedIn ? 
+                        <NavItem onClick={userLogout} authentication>Logout</NavItem> : 
+                        <NavItem onClick={openModal} authentication>Login</NavItem>}
                 </NavItems>
             </Center>
         </NavContainer>)

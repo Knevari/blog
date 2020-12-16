@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { login } from '../../store/actions/auth'
 import { useDispatch, useSelector } from 'react-redux'
-import { ToastProvider, useToasts } from 'react-toast-notifications'
+import { useToasts } from 'react-toast-notifications'
 
 import {
     LoginForm,
@@ -38,28 +38,33 @@ const customStyles = {
 
 
 const LoginModal = () => {
-    
-    var subtitle;
-
     const { register, handleSubmit } = useForm();
     const dispatch = useDispatch();
     const { addToast } = useToasts();
     const modalIsOpen = useSelector(state => state.modal.modalIsOpen);
+<<<<<<< HEAD
     const userLoggedIn = useSelector(state => state.auth.loggedIn); 
     const userLoginFail = useSelector(state => state.auth.error);
+=======
+    const userSuccessfullyLoggedIn = useSelector(state => state.auth.userSuccessfullyLoggedIn); 
+>>>>>>> d32c3383a84c5fadf1de870c6580216f98906547
 
     function closeModal() {
         dispatch(modalActions.toggleModal(false));
     }
     
     useEffect( () => {
-        if(userLoggedIn){
+        if (userSuccessfullyLoggedIn) {
             addToast('Login realizado com sucesso', {appearance: 'success'});
         }
+<<<<<<< HEAD
         if(userLoginFail){
             addToast('Login ou senha inválidos', { appearance: 'error'});
         }
     }, [userLoggedIn, userLoginFail]);
+=======
+    }, [userSuccessfullyLoggedIn]);
+>>>>>>> d32c3383a84c5fadf1de870c6580216f98906547
     
 
     const onSubmit = data => dispatch(login(data.username, data.password));
