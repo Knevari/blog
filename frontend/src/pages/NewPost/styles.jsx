@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SubmitButton } from '../../components/LoginModal/styles'
+
 export const PostContainer = styled.div`
     margin-top: 24px;
     

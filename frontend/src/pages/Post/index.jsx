@@ -77,7 +77,7 @@ const Post = ({ match: { params: {id} } }) => {
                         </DateCreated>
                         <AverageReadingTime>
                             <ClockIcon icon={faClock} />&nbsp;
-                            {getAvgReadingTime(getNumberOfWords(post.content))} mins
+                            {getAvgReadingTime(getNumberOfWords(post.content))} min de leitura
                         </AverageReadingTime>
                     </Meta>
 

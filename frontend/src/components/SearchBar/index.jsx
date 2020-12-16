@@ -1,7 +1,5 @@
 import { SearchContainer, SearchInput, SearchButton } from './styles'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import searchActions from '../../store/actions/search'
 import debounce from '../../utils/debounce'
 

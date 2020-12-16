@@ -4,8 +4,6 @@ import { useQuery } from 'react-query';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux'
 
-import { useToasts } from 'react-toast-notifications'
-
 // Other Deps
 import axios from 'axios';
 import Loader from 'react-loader-spinner'
@@ -21,12 +19,8 @@ import {
     Save
 } from './styles'
 
-import { faClock } from '@fortawesome/free-solid-svg-icons'
-
 const NewPost = () => {
-
     const token = useSelector(state => state.auth.user);
-    console.log("Token", token)
 
     function fetchTags(id) {
         return async () => {
@@ -57,7 +51,6 @@ const NewPost = () => {
     )
 
     const { register, handleSubmit } = useForm();
-    const { addToast } = useToasts();
 
     const onSubmit = async data => {
         // dispatch(login(data.username, data.password))

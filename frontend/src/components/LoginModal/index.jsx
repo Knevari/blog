@@ -1,5 +1,4 @@
-import { render } from 'react-dom/cjs/react-dom.development';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { login } from '../../store/actions/auth'
 import { useDispatch, useSelector } from 'react-redux'
@@ -52,7 +51,7 @@ const LoginModal = () => {
         if (userSuccessfullyLoggedIn) {
             addToast('Login realizado com sucesso', {appearance: 'success'});
         }
-    }, [userSuccessfullyLoggedIn]);
+    }, [userSuccessfullyLoggedIn, addToast]);
     
 
     const onSubmit = data => dispatch(login(data.username, data.password));

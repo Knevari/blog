@@ -16,8 +16,8 @@ const Pages = () => {
         <Router history={history}>
             <NavBar />
             <Switch>
-                <Route exact path="/" exact strict component={Posts}/>
-                <Route exact path="/new_post" component={NewPost}/>
+                <Route path="/" exact strict component={Posts}/>
+                <Route path="/new_post" component={NewPost}/>
                 <Route path="/post/:id" component={Post} />
             </Switch>
         </Router>
