@@ -18,7 +18,8 @@ import {
     DateCreated,
     AverageReadingTime,
     Content,
-    ClockIcon
+    ClockIcon,
+    CommentCount
 } from './styles'
 
 import { faClock } from '@fortawesome/free-solid-svg-icons'
@@ -26,6 +27,9 @@ import { faClock } from '@fortawesome/free-solid-svg-icons'
 import ScrollToTop from '../../components/ScrollToTop'
 import Comment from '../../components/Comment'
 import CommentEditor from '../../components/CommentEditor'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComments } from '@fortawesome/free-solid-svg-icons'
 
 import { getAvgReadingTime, getElapsedTime } from '../../utils/time'
 
@@ -103,6 +107,11 @@ const Post = ({ match: { params: {id} } }) => {
                     <Content dangerouslySetInnerHTML={{__html: post.content}} />
 
                     {loggedIn && <CommentEditor />}
+
+                    <CommentCount>
+                        <FontAwesomeIcon icon={faComments} />&nbsp;
+                        {post.comment_count} Comentários
+                    </CommentCount>
 
                     {comments && comments.map(comment => (
                         <Comment

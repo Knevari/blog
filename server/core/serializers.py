@@ -53,25 +53,22 @@ class LikeSerializer(serializers.ModelSerializer):
         model = Like
         fields = ("id", "post", "author", "created_at")
 
-
-class TagField(serializers.RelatedField):
-    def to_native(self, value):
-        return str(value)
-
-    def to_representation(self, value):
-        return {
-            "title": value.title,
-            "color": value.color
-        }
-
-class PostSerializer(serializers.HyperlinkedModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
     author = UserProfileSerializer(source="owner", read_only=True)
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    tag = TagField(many=True, read_only=True)
+    tags = TagSerializer(source="tag", read_only=True, many=True)
+    comment_count = serializers.SerializerMethodField(read_only=True)
+    likes = serializers.SerializerMethodField(read_only=True)
+
+    def get_comment_count(self, obj):
+        return Comment.objects.filter(post=obj).count()
+
+    def get_likes(self, obj):
+        return Like.objects.filter(post=obj).count()
 
     class Meta:
         model = Post
-        fields = ("author", "id", "title", "content", "tag", "created_at", "owner")
+        fields = ("author", "id", "title", "content", "tag", "created_at", "owner", "tags", "comment_count", "likes")
         extra_kwargs = {"tag": {"required": False}}
 
     def create(self, validated_data):

@@ -58,7 +58,7 @@ const NewPost = () => {
                         addToast(`${err}: ${message}`, { appearance: 'error' });
                     }
                 }
-                else addToast(`${error_messages}`, { appearance: 'error' });
+                else addToast(`Um erro ocorreu!`, { appearance: 'error' });
                 setIsSubmited(true);
                 return error_messages;
             })

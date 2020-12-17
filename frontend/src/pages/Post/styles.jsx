@@ -47,3 +47,7 @@ export const ClockIcon = styled(FontAwesomeIcon)`
     color: white;
     font-size: 0.9rem;
 `;
+
+export const CommentCount = styled.h5`
+    color: white;
+`

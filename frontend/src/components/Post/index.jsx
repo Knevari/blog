@@ -16,7 +16,7 @@ import {
 import { faComments, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { useQuery } from 'react-query'
 
-const Post = ({ title, content, likes, username, onClick, tags }) => (
+const Post = ({ title, content, likes, username, commentCount, onClick, tags }) => (
     <PostContainer onClick={onClick}>
         <PostOwner>Postado por {username}</PostOwner>
         <OverlayContainer>
@@ -34,7 +34,7 @@ const Post = ({ title, content, likes, username, onClick, tags }) => (
             </Action>
             <Action>
                 <ActionButton icon={faComments} />
-                <ActionTitle>0 Comentários</ActionTitle>
+                <ActionTitle>{commentCount} Comentários</ActionTitle>
             </Action>
         </PostActions>
     </PostContainer>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const CommentContainer = styled.div`
-    margin-top: 24px;
+    margin-top: 12px;
 `;
 
 export const CommentAuthor = styled.span`

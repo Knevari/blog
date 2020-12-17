@@ -77,17 +77,20 @@ class Post(OwnerModel):
     def __str__(self):
         return self.title
 
+    def count_comments(self):
+        return Comment.objects.filter(post=self.id).count()
+
     def count_likes(self):
         return Like.objects.filter(like_post=self.id).count()
 
 
 class Like(OwnerModel):
-    post = models.OneToOneField(Post, on_delete=models.CASCADE, primary_key=True)
+    post = models.OneToOneField(Post, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         # Should check if the user already liked the post
-        if not Like.objects.filter(like_owner=self.owner).exists():
+        if not Like.objects.filter(owner=self.owner).exists():
             super(Like, self).save(*args, **kwargs)
 
 class Comment(OwnerModel):
