@@ -41,18 +41,12 @@ const LoginModal = () => {
     const dispatch = useDispatch();
     const { addToast } = useToasts();
     const modalIsOpen = useSelector(state => state.modal.modalIsOpen);
-<<<<<<< HEAD
-    const userLoggedIn = useSelector(state => state.auth.loggedIn); 
-    const userLoginFail = useSelector(state => state.auth.error);
-    const userSuccessfullyLoggedIn = useSelector(state => state.auth.userSuccessfullyLoggedIn); 
-=======
     
     const {
-        error,
+        error: userLoginFail,
         userSuccessfullyLoggedIn,
         user: {username}
     } = useSelector(state => state.auth);
->>>>>>> e764496c66a2a6870af72caac5fc5be4f7a05bd3
 
     function closeModal() {
         dispatch(modalActions.toggleModal(false));
@@ -62,45 +56,36 @@ const LoginModal = () => {
         if (userSuccessfullyLoggedIn) {
             addToast(`Bem vindo ${username}`, {appearance: 'success'});
         }
-        if (error) {
-            addToast(error, {appearance: 'error'});
+        if (userLoginFail) {
+            addToast(userLoginFail, {appearance: 'error'});
         }
-<<<<<<< HEAD
-        if(userLoginFail){
-            addToast('Login ou senha inválidos', { appearance: 'error'});
-        }
-    }, [userLoggedIn, userLoginFail, userSuccessfullyLoggedIn]);
-
-=======
-    }, [error, userSuccessfullyLoggedIn, addToast]);
->>>>>>> e764496c66a2a6870af72caac5fc5be4f7a05bd3
+    }, [addToast, userLoginFail, userSuccessfullyLoggedIn]);
     
 
     const onSubmit = data => dispatch(login(data.username, data.password));
-        
-    
-        return (
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                contentLabel="Example Modal"
-                style={customStyles}
-            >
 
-                <Title>Login</Title>
+    return (
+        <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            contentLabel="Example Modal"
+            style={customStyles}
+        >
 
-                <LoginForm onSubmit={handleSubmit(onSubmit)}>
-                    <FormSet>
-                        <Label htmlFor="username">Username </Label>
-                        <Input ref={register} type="text" name="username" />
-                    </FormSet>
-                    <FormSet>
-                        <Label htmlFor="password">Password </Label>
-                        <Input ref={register} type="password" name="password" />
-                    </FormSet>
-                    <SubmitButton type="submit">Entrar</SubmitButton>
-                </LoginForm>
-            </Modal>
+            <Title>Login</Title>
+
+            <LoginForm onSubmit={handleSubmit(onSubmit)}>
+                <FormSet>
+                    <Label htmlFor="username">Username </Label>
+                    <Input ref={register} type="text" name="username" />
+                </FormSet>
+                <FormSet>
+                    <Label htmlFor="password">Password </Label>
+                    <Input ref={register} type="password" name="password" />
+                </FormSet>
+                <SubmitButton type="submit">Entrar</SubmitButton>
+            </LoginForm>
+        </Modal>
     )
 }
 export default LoginModal;
