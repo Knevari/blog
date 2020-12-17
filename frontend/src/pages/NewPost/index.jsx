@@ -51,7 +51,7 @@ const NewPost = () => {
             })
             .catch(error => {
                 const error_messages = error.response.data
-                if (error.response.status == 400) {
+                if (error.response.status === 400) {
                     for (let err in error_messages) {
                         let message = error_messages[err]
                         if (Array.isArray(message)) message = message.join("\n")

@@ -59,7 +59,7 @@ const LoginModal = () => {
         if (userLoginFail) {
             addToast('Login ou senha inválidos', {appearance: 'error'});
         }
-    }, [addToast, userLoginFail, userSuccessfullyLoggedIn]);
+    }, [addToast, username, userLoginFail, userSuccessfullyLoggedIn]);
     
 
     const onSubmit = data => dispatch(login(data.username, data.password));

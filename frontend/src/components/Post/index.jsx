@@ -14,7 +14,6 @@ import {
 } from './styles'
 
 import { faComments, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
-import { useQuery } from 'react-query'
 
 const Post = ({ title, content, likes, username, onClick, tags }) => (
     <PostContainer onClick={onClick}>
