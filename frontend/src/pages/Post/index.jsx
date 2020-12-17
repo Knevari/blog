@@ -1,8 +1,7 @@
 import { Container, Center } from '../../styles'
 
-import { useQuery } from 'react-query';
-import { formatDistance, subMinutes } from 'date-fns';
-import { ptBR } from 'date-fns/locale'
+import { useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
 
 // Other Deps
 import axios from 'axios';
@@ -25,36 +24,27 @@ import {
 import { faClock } from '@fortawesome/free-solid-svg-icons'
 
 import ScrollToTop from '../../components/ScrollToTop'
+import Comment from '../../components/Comment'
 import CommentEditor from '../../components/CommentEditor'
+
+import { getAvgReadingTime, getElapsedTime } from '../../utils/time'
 
 function fetchCurrentPost(id) {
     return async () => {
         const { data } = await axios.get(`${API_URL}posts/${id}/`)
-        return data;
+        return data
     }
 }
 
-function getAvgReadingTime(content) {
-    const nWords = content.split(' ').length;
-
-    const AVG_WORDS_PER_MIN = 250;
-    const mins = Math.floor(nWords / AVG_WORDS_PER_MIN);
-
-    const now = new Date();
-
-    return formatDistance(subMinutes(now, mins), now, {
-        locale: ptBR
-    });
-}
-
-function getElapsedTime(time) {
-    return formatDistance(new Date(time), new Date(), {
-        locale: ptBR
-    })
+function fetchCurrentPostComments(id) {
+    return async () => {
+        const { data } = await axios.get(`${API_URL}posts/${id}/comments/`)
+        return data
+    }
 }
 
 const Post = ({ match: { params: {id} } }) => {
-    const {isLoading, isError, data: post } = useQuery(
+    const {isLoading: isPostLoading, isError: postHasErrored, data: post } = useQuery(
         "currentPost", 
         fetchCurrentPost(id), 
         {
@@ -63,10 +53,22 @@ const Post = ({ match: { params: {id} } }) => {
         }
     )
 
+    const  {isLoading: areCommentsLoading, isError: commentsHaveErrored, data: comments } = useQuery(
+        "currentPostComments", 
+        fetchCurrentPostComments(id), 
+        {
+            enabled: true,
+            cacheTime: 0,
+        }
+    )
+
+
+    const loggedIn = useSelector(state => state.auth.loggedIn)
+
     return (
         <Container>
             <ScrollToTop />
-            {isLoading && (
+            {isPostLoading && (
                 <Center>
                     <Loader
                         type="Puff"
@@ -78,7 +80,7 @@ const Post = ({ match: { params: {id} } }) => {
                 </Center>
             )}
 
-            {isError && (
+            {postHasErrored && (
                 <h1>Alguma coisa deu errado :)</h1>
             )}
 
@@ -100,9 +102,19 @@ const Post = ({ match: { params: {id} } }) => {
 
                     <Content dangerouslySetInnerHTML={{__html: post.content}} />
 
-                    <CommentEditor />
+                    {loggedIn && <CommentEditor />}
+
+                    {comments && comments.map(comment => (
+                        <Comment
+                            author={comment.author.username}
+                            created_at={comment.created_at} 
+                            content={comment.content}
+                        />
+                        
+                    ))}
                 </PostContainer>
             )}
+
         </Container>
     )
 }

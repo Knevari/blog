@@ -3,7 +3,8 @@ import { useQuery } from 'react-query';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux'
 import { useToasts } from 'react-toast-notifications'
-import CommentEditor from '../../components/CommentEditor'
+// import CommentEditor from '../../components/CommentEditor'
+import { useState } from 'react';
 
 // Other Deps
 import axios from 'axios';
@@ -22,6 +23,8 @@ import {
 
 const NewPost = () => {
     const user = useSelector(state => state.auth.user);
+    const [isSubmited, setIsSubmited] = useState(true);
+
     const { register, handleSubmit, formState, reset } = useForm({
         mode: "onChange"
     });
@@ -38,14 +41,15 @@ const NewPost = () => {
         const headers = {
             Authorization: `Token ${user.token}`
         }
+        setIsSubmited(false);
         axios.post(`${API_URL}posts/`, { ...post }, { headers })
             .then(data => {
                 addToast(`Post cadastrado com sucesso!`, { appearance: 'success' });
+                setIsSubmited(true);
                 reset({})
                 return data;
             })
             .catch(error => {
-                console.log(error.response);
                 const error_messages = error.response.data
                 if (error.response.status == 400) {
                     for (let err in error_messages) {
@@ -55,6 +59,7 @@ const NewPost = () => {
                     }
                 }
                 else addToast(`${error_messages}`, { appearance: 'error' });
+                setIsSubmited(true);
                 return error_messages;
             })
     }
@@ -93,7 +98,7 @@ const NewPost = () => {
                         <InputTitle ref={register} type="text" name="title" />
                         <label>Conteúdo:</label>
                         <InputContent ref={register} name="content" />
-                        <CommentEditor />
+                        {/* <CommentEditor /> */}
                         <label>Tags:</label>
                         <SelectTags ref={register} name="tag" multiple>
                             {tags.results.map(tag => (
@@ -104,10 +109,18 @@ const NewPost = () => {
                                 </option>
                             ))}
                         </SelectTags>
-                        {console.log("Form state")}
-                        {console.log(formState)}
-                        {console.log((formState.isSubmitting ? "true" : "false"))}
-                        <Save type="submit" ref={register} disabled={formState.isSubmitting}>Salvar</Save>
+                        <Save type="submit" ref={register} disabled={!isSubmited}>
+                            {!isSubmited && (
+                                    <Loader
+                                        type="Puff"
+                                        color="#888888"
+                                        height={25}
+                                        width={25}
+                                        timeout={5000}
+                                    />
+                            )}
+                            {isSubmited && ("Salvar")}
+                        </Save>
                     </PostContainer>
                 </form>
             )}

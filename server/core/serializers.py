@@ -85,6 +85,8 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    author = UserProfileSerializer(source="owner", read_only=True)
+
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ("id", "content", "created_at", "author", "post")

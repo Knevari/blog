@@ -1,5 +1,4 @@
-
-            import { useState } from 'react'
+import { useState } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
 
 const CommentEditor = (...props) => {
