@@ -18,7 +18,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 const NavBar = () => {
 
     const dispatch = useDispatch();
-    const userLoggedIn = useSelector(state => state.auth.loggedIn);
+    const {loggedIn: userLoggedIn, user: {username}} = useSelector(state => state.auth);
 
     function openModal(event){
         event.preventDefault();
@@ -32,6 +32,9 @@ const NavBar = () => {
     function returnHome() {
         history.push("/")
     }
+    function newPost() {
+        history.push("/new_post")
+    }
 
     return (
         <NavContainer>
@@ -40,9 +43,12 @@ const NavBar = () => {
                 <NavItems>
                     {userLoggedIn && (
                         <>
-                            <NavItem>
+                            <NavItem onClick={newPost}>
                                 <NavIcon icon={faEdit} />&nbsp;
                                 <span>Novo Post</span>
+                            </NavItem>
+                            <NavItem>
+                                <span>Oi, {username}</span>
                             </NavItem>
                         </>
                     )}

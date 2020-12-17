@@ -5,8 +5,13 @@ import axios from 'axios';
 import modalActions from './modal';
 
 export const login = (username, password) => {
-    
-    console.log(username,password);
+    const request = () => ({ type: userConstants.LOGIN_REQUEST })
+    const success = (token, username) => ({
+        type: userConstants.LOGIN_SUCCESS,
+        token,
+        username
+    })
+    const failure = (error) => ({type: userConstants.LOGIN_FAILURE, error })
 
     return async dispatch => {
         dispatch(request({username}));
@@ -16,19 +21,14 @@ export const login = (username, password) => {
                 password
             });
             localStorage.setItem("token", response.data.token)
-            dispatch(success(response.data.token));      
+            dispatch(success(response.data.token, username));      
             dispatch(modalActions.toggleModal(false));
         }
         catch(error){
             console.log(error.message);
             dispatch(failure(error.message));
         }
-        
-    };
-
-    function request() { return { type: userConstants.LOGIN_REQUEST }}
-    function success(token) { return { type: userConstants.LOGIN_SUCCESS, token }}
-    function failure(error) { return {type: userConstants.LOGIN_FAILURE, error }}
+    }
 }
 
 export function logout(){

@@ -8,7 +8,7 @@ from django.conf import settings
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ['title', 'slug', 'color']
+        fields = ['id', 'title', 'slug', 'color']
 
 
 class AdminSerializer(serializers.ModelSerializer):
@@ -49,7 +49,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     author = UserProfileSerializer(source="owner")
-    tag = TagSerializer(read_only=True, many=True)
+    tag = TagSerializer(read_only=False, many=True)
 
     class Meta:
         model = Post

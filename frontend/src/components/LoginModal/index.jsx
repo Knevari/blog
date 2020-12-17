@@ -1,5 +1,4 @@
-import { render } from 'react-dom/cjs/react-dom.development';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { login } from '../../store/actions/auth'
 import { useDispatch, useSelector } from 'react-redux'
@@ -22,7 +21,7 @@ Modal.setAppElement('#root')
 
 const customStyles = {
     overlay: {
-        zIndex: 1000,
+        zIndex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.75)'
     },
     content: {
@@ -42,9 +41,18 @@ const LoginModal = () => {
     const dispatch = useDispatch();
     const { addToast } = useToasts();
     const modalIsOpen = useSelector(state => state.modal.modalIsOpen);
+<<<<<<< HEAD
     const userLoggedIn = useSelector(state => state.auth.loggedIn); 
     const userLoginFail = useSelector(state => state.auth.error);
     const userSuccessfullyLoggedIn = useSelector(state => state.auth.userSuccessfullyLoggedIn); 
+=======
+    
+    const {
+        error,
+        userSuccessfullyLoggedIn,
+        user: {username}
+    } = useSelector(state => state.auth);
+>>>>>>> e764496c66a2a6870af72caac5fc5be4f7a05bd3
 
     function closeModal() {
         dispatch(modalActions.toggleModal(false));
@@ -52,13 +60,20 @@ const LoginModal = () => {
     
     useEffect( () => {
         if (userSuccessfullyLoggedIn) {
-            addToast('Login realizado com sucesso', {appearance: 'success'});
+            addToast(`Bem vindo ${username}`, {appearance: 'success'});
         }
+        if (error) {
+            addToast(error, {appearance: 'error'});
+        }
+<<<<<<< HEAD
         if(userLoginFail){
             addToast('Login ou senha inválidos', { appearance: 'error'});
         }
     }, [userLoggedIn, userLoginFail, userSuccessfullyLoggedIn]);
 
+=======
+    }, [error, userSuccessfullyLoggedIn, addToast]);
+>>>>>>> e764496c66a2a6870af72caac5fc5be4f7a05bd3
     
 
     const onSubmit = data => dispatch(login(data.username, data.password));
@@ -85,8 +100,6 @@ const LoginModal = () => {
                     </FormSet>
                     <SubmitButton type="submit">Entrar</SubmitButton>
                 </LoginForm>
-
-                {/* <button onClick={closeModal}>close</button> */}
             </Modal>
     )
 }
