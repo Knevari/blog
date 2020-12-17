@@ -81,6 +81,12 @@ class Post(OwnerModel):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        print(args)
+        print(dir(self))
+        # super(Post, self).save(*args, **kwargs)
+
+
 
 class Comment(OwnerModel):
     post = models.ForeignKey(

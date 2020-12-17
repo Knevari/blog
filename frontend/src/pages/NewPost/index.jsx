@@ -20,7 +20,7 @@ import {
 } from './styles'
 
 const NewPost = () => {
-    const token = useSelector(state => state.auth.user);
+    const user = useSelector(state => state.auth.user);
 
     function fetchTags(id) {
         return async () => {
@@ -32,7 +32,7 @@ const NewPost = () => {
 
     async function newPost(post) {
         const headers = {
-            Authorization: `Token ${token}`
+            Authorization: `Token ${user.token}`
         }
         let tags = [];
         post.tag.forEach(i => tags.push(JSON.parse(i)));

@@ -13,9 +13,13 @@ class PostViewSet(ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsOwner, IsAuthenticatedOrReadOnly)
     serializer_class = PostSerializer
-    queryset = Post.objects.all().select_related('owner')
+    queryset = Post.objects.select_related('owner').all()
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'tag__title']
+
+    def get_queryset(self):
+        posts = Post.objects.all().order_by('-created_at')
+        return posts
 
 
 class CommentViewSet(ModelViewSet):
