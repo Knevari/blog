@@ -16,7 +16,6 @@ import history from '../../utils/history'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 const NavBar = () => {
-
     const dispatch = useDispatch();
     const {loggedIn: userLoggedIn, user: {username}} = useSelector(state => state.auth);
 

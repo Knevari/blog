@@ -83,7 +83,7 @@ const Post = ({ match: { params: {id} } }) => {
                         </AverageReadingTime>
                     </Meta>
 
-                    <Content>{post.content}</Content>
+                    <Content dangerouslySetInnerHTML={{__html: post.content}} />
                 </PostContainer>
             )}
         </Container>
