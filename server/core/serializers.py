@@ -54,9 +54,20 @@ class LikeSerializer(serializers.ModelSerializer):
         fields = ("id", "post", "author", "created_at")
 
 
-class PostSerializer(serializers.ModelSerializer):
+class TagField(serializers.RelatedField):
+    def to_native(self, value):
+        return str(value)
+
+    def to_representation(self, value):
+        return {
+            "title": value.title,
+            "color": value.color
+        }
+
+class PostSerializer(serializers.HyperlinkedModelSerializer):
     author = UserProfileSerializer(source="owner", read_only=True)
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    tag = TagField(many=True, read_only=True)
 
     class Meta:
         model = Post
@@ -64,11 +75,8 @@ class PostSerializer(serializers.ModelSerializer):
         extra_kwargs = {"tag": {"required": False}}
 
     def create(self, validated_data):
-        print(validated_data)
         author_post = validated_data.pop('owner')
-        print(author_post)
-
-        owner = User.objects.get(username=author_post)
+        owner = UserProfile.objects.get(user__username=author_post)
         tags = validated_data.pop('tag')
         post = Post.objects.create(owner=owner, **validated_data)
         post.tag.set(tags)

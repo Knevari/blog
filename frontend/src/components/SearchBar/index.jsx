@@ -8,7 +8,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 const SearchBar = () => {
     const dispatch = useDispatch()
 
-    const debounceChangeValue = debounce(changeValue, 500)
+    const debounceChangeValue = debounce(changeValue, 250)
 
     function changeValue(event) {
         event.preventDefault();

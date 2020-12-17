@@ -10,19 +10,23 @@ import {
     ActionTitle,
     ActionButton,
     PostTags,
+    TagsContainer,
 } from './styles'
 
 import { faComments, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
-
+import { useQuery } from 'react-query'
 
 const Post = ({ title, content, likes, username, onClick }) => (
     <PostContainer onClick={onClick}>
         <PostOwner>Postado por {username}</PostOwner>
         <OverlayContainer>
             <PostTitle>{title}</PostTitle>
-            <PostTags>Tag</PostTags>
+            <TagsContainer>
+                <PostTags color="#888">Esta é uma tag</PostTags>
+                <PostTags color="#888">Outra tag</PostTags>
+            </TagsContainer>
             <PostContent>{content}</PostContent>
-            <Overlay />
+            {content.length > 300 ? <Overlay /> : null}
         </OverlayContainer>
         <PostActions>
             <Action>

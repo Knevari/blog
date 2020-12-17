@@ -20,7 +20,7 @@ const Posts = ({ history }) => {
     const { isLoading, isError, data: posts, refetch } = useQuery("posts", async () => {
         const { data } = await axios.get(URL + `?search=${searchValue}`)
         return data
-    }, { enabled: false, });
+    });
 
 
     useEffect(refetch, [searchValue, refetch])

@@ -55,7 +55,10 @@ const Post = ({ match: { params: {id} } }) => {
     const {isLoading, isError, data: post } = useQuery(
         "currentPost", 
         fetchCurrentPost(id), 
-        { enabled: true }
+        {
+            enabled: true,
+            cacheTime: 0,
+        }
     )
 
     return (

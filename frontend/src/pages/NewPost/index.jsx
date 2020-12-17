@@ -3,6 +3,8 @@ import { Container, Center } from '../../styles'
 import { useQuery } from 'react-query';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux'
+import { useToasts } from 'react-toast-notifications'
+
 
 // Other Deps
 import axios from 'axios';
@@ -21,28 +23,37 @@ import {
 
 const NewPost = () => {
     const user = useSelector(state => state.auth.user);
+    const { register, handleSubmit, reset } = useForm();
+    const { addToast } = useToasts();
 
     function fetchTags(id) {
         return async () => {
             const { data } = await axios.get(`${API_URL}tags/`)
-            console.log(data)
             return data;
         }
     }
 
-    async function newPost(post) {
+    function newPost(post) {
         const headers = {
             Authorization: `Token ${user.token}`
         }
-        // let tags = [];
-        // post.tag.forEach(i => tags.push(JSON.parse(i)));
-        // post.tag = tags;
-        // console.log(tags);
-        const { data } = await axios.post(`${API_URL}posts/`, { ...post}, { headers })
-        return data;
+        axios.post(`${API_URL}posts/`, { ...post }, { headers })
+            .then(data => {
+                addToast(`Post cadastrado com sucesso!`, { appearance: 'success' });
+                reset({})
+                return data;
+            })
+            .catch(error => {
+                console.log(error.response);
+                const error_messages = error.response.data
+                for (let err in error_messages) {
+                    let message = error_messages[err]
+                    if (Array.isArray(message)) message = message.join("\n")
+                    addToast(`${err}: ${message}`, { appearance: 'error' });
+                }
+                return error_messages;
+            })
     }
-
-
 
     const { isLoading, isError, data: tags } = useQuery(
         "tags",
@@ -50,13 +61,8 @@ const NewPost = () => {
         { enabled: true }
     )
 
-    const { register, handleSubmit } = useForm();
+    const onSubmit = async data => newPost(data)
 
-    const onSubmit = async data => {
-        // dispatch(login(data.username, data.password))
-        console.log("aqui")
-        console.log(await newPost(data))
-    };
 
     return (
         <Container>
@@ -93,7 +99,7 @@ const NewPost = () => {
                                 </option>
                             ))}
                         </SelectTags>
-                        <Save type="submit">Salvar</Save>
+                        <Save type="submit" ref={register} setT>Salvar</Save>
                     </PostContainer>
                 </form>
             )}

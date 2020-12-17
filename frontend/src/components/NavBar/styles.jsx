@@ -16,6 +16,10 @@ export const NavContainer = styled.header`
     z-index: 1;
     color: white;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+
+    & > * {
+        user-select: none;
+    }
 `;
 export const NavBrand = styled.div`
     font-size: 1.2em;

@@ -87,9 +87,28 @@ export const ActionButton = styled(FontAwesomeIcon)`
     margin-right: 4px;
 `;
 
-export const PostTags = styled.div`
-    font-size: 1rem;
-    color: white;
+export const TagsContainer = styled.div`
+    display: block;
+    position: sticky;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
     margin-bottom: 4px;
-    
+`;
+
+export const PostTags = styled.div`
+    display: inline-block;
+    font-size: 0.8rem;
+    border-radius: 24px;
+    padding: 2px 8px;
+    color: white;
+    border-right: 4px;
+    outline: none;
+    font-family: Open Sans;
+    box-sizing: border-box;
+    background-color: ${props => props.color};
+
+    &:not(:last-child){
+        margin-right: 8px;
+    }
 `;
