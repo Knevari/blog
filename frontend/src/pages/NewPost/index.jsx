@@ -106,8 +106,8 @@ const NewPost = () => {
                         </SelectTags>
                         {console.log("Form state")}
                         {console.log(formState)}
-                        {console.log((!formState.isSubmitting ? "true" : "false"))}
-                        <Save type="submit" ref={register} disabled={!formState.isSubmitting}>Salvar</Save>
+                        {console.log((formState.isSubmitting ? "true" : "false"))}
+                        <Save type="submit" ref={register} disabled={formState.isSubmitting}>Salvar</Save>
                     </PostContainer>
                 </form>
             )}

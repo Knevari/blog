@@ -22,7 +22,9 @@ class UserProfile(models.Model):
 class OwnerModel(models.Model):
     owner = models.ForeignKey(
         UserProfile,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False
     )
 
     class Meta:
@@ -60,7 +62,7 @@ class Tag(models.Model):
 
 
 class Post(OwnerModel):
-    tag = models.ManyToManyField(Tag, related_name='tags', blank=True)
+    tag = models.ManyToManyField(Tag, blank=True)
 
     title = models.CharField(
         _("post title"),
@@ -69,30 +71,24 @@ class Post(OwnerModel):
         null=False
     )
 
-    likes = models.IntegerField(
-        _("likes"),
-        default=0,
-        blank=True
-    )
-
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
 
-    # def save(self, *args, **kwargs):
-    #     print(args)
-    #     print(dir(self))
-    #     # super(Post, self).save(*args, **kwargs)
+    def count_likes(self):
+        return Like.objects.filter(like_post=self.id).count()
 
 
 class Like(OwnerModel):
     post = models.OneToOneField(Post, on_delete=models.CASCADE, primary_key=True)
-    created = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-    def count(self):
-        return Like.objects.filter(like_post=self.post.id).aggregate(Count('pk'))
+    def save(self, *args, **kwargs):
+        # Should check if the user already liked the post
+        if not Like.objects.filter(like_owner=self.owner).exists():
+            super(Like, self).save(*args, **kwargs)
 
 class Comment(OwnerModel):
     post = models.ForeignKey(
