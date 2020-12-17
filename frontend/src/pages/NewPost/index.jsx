@@ -1,10 +1,9 @@
 import { Container, Center } from '../../styles'
-import { CommentEditor } from '../../components/CommentEditor/index'
 import { useQuery } from 'react-query';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux'
 import { useToasts } from 'react-toast-notifications'
-
+import CommentEditor from '../../components/CommentEditor'
 
 // Other Deps
 import axios from 'axios';
@@ -25,7 +24,7 @@ const NewPost = () => {
     const user = useSelector(state => state.auth.user);
     const { register, handleSubmit, formState, reset } = useForm({
         mode: "onChange"
-      });
+    });
     const { addToast } = useToasts();
 
     function fetchTags(id) {
@@ -48,7 +47,7 @@ const NewPost = () => {
             .catch(error => {
                 console.log(error.response);
                 const error_messages = error.response.data
-                if(error.response.status == 400){
+                if (error.response.status == 400) {
                     for (let err in error_messages) {
                         let message = error_messages[err]
                         if (Array.isArray(message)) message = message.join("\n")
@@ -94,6 +93,7 @@ const NewPost = () => {
                         <InputTitle ref={register} type="text" name="title" />
                         <label>Conteúdo:</label>
                         <InputContent ref={register} name="content" />
+                        <CommentEditor />
                         <label>Tags:</label>
                         <SelectTags ref={register} name="tag" multiple>
                             {tags.results.map(tag => (
@@ -104,6 +104,9 @@ const NewPost = () => {
                                 </option>
                             ))}
                         </SelectTags>
+                        {console.log("Form state")}
+                        {console.log(formState)}
+                        {console.log((!formState.isSubmitting ? "true" : "false"))}
                         <Save type="submit" ref={register} disabled={!formState.isSubmitting}>Salvar</Save>
                     </PostContainer>
                 </form>
