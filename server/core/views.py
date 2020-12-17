@@ -23,7 +23,7 @@ class PostViewSet(ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def comments(self, request, pk):
-        comments = Comment.objects.all().filter(post=pk)
+        comments = Comment.objects.all().filter(post=pk).order_by("-created_at")
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
