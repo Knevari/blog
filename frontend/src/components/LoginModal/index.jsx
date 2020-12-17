@@ -43,7 +43,7 @@ const LoginModal = () => {
     const modalIsOpen = useSelector(state => state.modal.modalIsOpen);
     
     const {
-        error,
+        error: userLoginFail,
         userSuccessfullyLoggedIn,
         user: {username}
     } = useSelector(state => state.auth);
@@ -56,10 +56,10 @@ const LoginModal = () => {
         if (userSuccessfullyLoggedIn) {
             addToast(`Bem vindo ${username}`, {appearance: 'success'});
         }
-        if (error) {
-            addToast(error, {appearance: 'error'});
+        if (userLoginFail) {
+            addToast(userLoginFail, {appearance: 'error'});
         }
-    }, [error, userSuccessfullyLoggedIn, addToast]);
+    }, [addToast, userLoginFail, userSuccessfullyLoggedIn]);
     
 
     const onSubmit = data => dispatch(login(data.username, data.password));

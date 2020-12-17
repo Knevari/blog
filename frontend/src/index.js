@@ -4,6 +4,7 @@ import Pages from './pages';
 import { QueryClientProvider, QueryClient } from "react-query";
 import { Provider } from 'react-redux';
 import { ToastProvider } from 'react-toast-notifications'
+// import { Snack } from './styles'
 import GlobalStyle from './styles';
 import configureStore from './store';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -17,7 +18,9 @@ ReactDOM.render(
       <Provider store={store}>
         <ToastProvider 
           autoDismiss 
-          autoDismissTimeout={2000}
+          autoDismissTimeout={3000}
+          // components= {{ Toast: Snack }}
+          placement="top-center"
         >
           <Pages />
         </ToastProvider>
