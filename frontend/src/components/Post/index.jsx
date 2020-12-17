@@ -9,15 +9,18 @@ import {
     Action,
     ActionTitle,
     ActionButton,
+    PostTags,
 } from './styles'
 
 import { faComments, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+
 
 const Post = ({ title, content, likes, username, onClick }) => (
     <PostContainer onClick={onClick}>
         <PostOwner>Postado por {username}</PostOwner>
         <OverlayContainer>
             <PostTitle>{title}</PostTitle>
+            <PostTags>Tag</PostTags>
             <PostContent>{content}</PostContent>
             <Overlay />
         </OverlayContainer>

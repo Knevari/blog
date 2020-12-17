@@ -14,6 +14,8 @@ export const PostContainer = styled.div`
     cursor: pointer;
     position: relative;
     font-weight: 300;
+    overflow: none;
+    word-wrap: break-word;
 
     &:hover {
         border: 1px solid rgba(255, 255, 255, 0.4);   
@@ -43,7 +45,7 @@ export const PostOwner = styled.div`
 export const PostTitle = styled.div`
     color: white;
     font-size: 1.3rem;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     font-weight: 400;
 `;
 
@@ -83,4 +85,11 @@ export const ActionButton = styled(FontAwesomeIcon)`
     color: #888;
     font-size: 1rem;
     margin-right: 4px;
+`;
+
+export const PostTags = styled.div`
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 4px;
+    
 `;

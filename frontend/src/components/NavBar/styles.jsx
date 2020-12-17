@@ -19,6 +19,8 @@ export const NavContainer = styled.header`
 `;
 export const NavBrand = styled.div`
     font-size: 1.2em;
+    font-weight: bold;
+    
     cursor: pointer;
 `;
 export const Center = styled.div`

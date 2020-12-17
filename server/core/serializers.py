@@ -1,9 +1,8 @@
-from core.models import Post, Comment, UserProfile, Tag
+from core.models import Post, Comment, UserProfile, Tag, Like, Post
 from rest_framework import serializers
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from django.conf import settings
-
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,14 +46,34 @@ class UserSerializer(serializers.ModelSerializer):
         return None
 
 
-class PostSerializer(serializers.ModelSerializer):
+class LikeSerializer(serializers.ModelSerializer):
     author = UserProfileSerializer(source="owner")
-    tag = TagSerializer(read_only=False, many=True)
+
+    class Meta:
+        model = Like
+        fields = ("id", "post", "author", "created_at")
+
+
+class PostSerializer(serializers.ModelSerializer):
+    author = UserProfileSerializer(source="owner", read_only=True)
+    owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Post
-        fields = ("author", "id", "title", "content",
-                  "likes", "tag", "created_at")
+        fields = ("author", "id", "title", "content", "tag", "created_at", "owner")
+        extra_kwargs = {"tag": {"required": False}}
+
+    def create(self, validated_data):
+        print(validated_data)
+        author_post = validated_data.pop('owner')
+        print(author_post)
+
+        owner = User.objects.get(username=author_post)
+        tags = validated_data.pop('tag')
+        post = Post.objects.create(owner=owner, **validated_data)
+        post.tag.set(tags)
+        post.save()
+        return post
 
 
 class CommentSerializer(serializers.ModelSerializer):

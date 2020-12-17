@@ -34,11 +34,11 @@ const NewPost = () => {
         const headers = {
             Authorization: `Token ${user.token}`
         }
-        let tags = [];
-        post.tag.forEach(i => tags.push(JSON.parse(i)));
-        post.tag = tags;
-        console.log(tags);
-        const { data } = await axios.post(`${API_URL}posts/`, { ...post, author: { id: 1, username: 'knevari', email: 'k@gmail.com' } }, { headers })
+        // let tags = [];
+        // post.tag.forEach(i => tags.push(JSON.parse(i)));
+        // post.tag = tags;
+        // console.log(tags);
+        const { data } = await axios.post(`${API_URL}posts/`, { ...post}, { headers })
         return data;
     }
 
@@ -64,7 +64,7 @@ const NewPost = () => {
                 <Center>
                     <Loader
                         type="Puff"
-                        color="#00BFFF"
+                        color="#888888"
                         height={100}
                         width={100}
                         timeout={3000}
@@ -88,7 +88,7 @@ const NewPost = () => {
                             {tags.results.map(tag => (
                                 <option
                                     key={tag.id}
-                                    value={JSON.stringify(tag)}>
+                                    value={tag.id}>
                                     {tag.title}
                                 </option>
                             ))}

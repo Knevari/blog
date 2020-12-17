@@ -6,7 +6,7 @@ class IsOwner(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         if 'owner' in request.data:
-            return request.user.id == request.data['owner']
+            return (request.user.id == request.data['owner'] or request.user.username == request.data['owner'])
 
         return True
 

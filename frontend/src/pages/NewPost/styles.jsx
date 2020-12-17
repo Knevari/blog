@@ -17,12 +17,12 @@ export const PostContainer = styled.div`
         font-size: 1.1rem;
         padding: 4px;
         appearance: none;
-        border: 1px solid #777;
+        border: 1px solid rgba(66, 66, 66, 0.4);
         border-radius: 4px;
         box-sizing: border-box;
         outline: none;
         color: white;
-        background-color: #888;
+        background-color: #1e2328;
     }
 `;
 
@@ -36,6 +36,7 @@ export const InputContent = styled.textarea`
 export const SelectTags = styled.select``;
 
 export const Save = styled(SubmitButton)`
-    background-color: #777;
-    color: black;
+    background-color: #1e2328;
+    color: white;
+    border: 1px solid rgba(66, 66, 66, 0.4);
 `;

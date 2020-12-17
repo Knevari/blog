@@ -1,7 +1,7 @@
 import { Container, Center } from '../../styles'
 
 import { useQuery } from 'react-query';
-import { formatDistance } from 'date-fns';
+import { formatDistance, subMinutes } from 'date-fns';
 import { ptBR } from 'date-fns/locale'
 
 // Other Deps
@@ -32,13 +32,23 @@ function fetchCurrentPost(id) {
     }
 }
 
-function getAvgReadingTime(nWords) {
+function getAvgReadingTime(content) {
+    const nWords = content.split(' ').length;
+
     const AVG_WORDS_PER_MIN = 250;
-    return Math.floor(nWords / AVG_WORDS_PER_MIN);
+    const mins = Math.floor(nWords / AVG_WORDS_PER_MIN);
+
+    const now = new Date();
+
+    return formatDistance(subMinutes(now, mins), now, {
+        locale: ptBR
+    });
 }
 
-function getNumberOfWords(text) {
-    return text.split(' ').length;
+function getElapsedTime(time) {
+    return formatDistance(new Date(time), new Date(), {
+        locale: ptBR
+    })
 }
 
 const Post = ({ match: { params: {id} } }) => {
@@ -55,7 +65,7 @@ const Post = ({ match: { params: {id} } }) => {
                 <Center>
                     <Loader
                         type="Puff"
-                        color="#00BFFF"
+                        color="#888888"
                         height={100}
                         width={100}
                         timeout={3000}    
@@ -75,11 +85,11 @@ const Post = ({ match: { params: {id} } }) => {
 
                     <Meta>
                         <DateCreated>
-                            {formatDistance(new Date(post.created_at), new Date(), { locale: ptBR })} atrás
+                            {getElapsedTime(post.created_at)} atrás
                         </DateCreated>
                         <AverageReadingTime>
                             <ClockIcon icon={faClock} />&nbsp;
-                            {getAvgReadingTime(getNumberOfWords(post.content))} min de leitura
+                            {getAvgReadingTime(post.content)} de leitura
                         </AverageReadingTime>
                     </Meta>
 

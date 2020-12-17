@@ -57,7 +57,7 @@ const LoginModal = () => {
             addToast(`Bem vindo ${username}`, {appearance: 'success'});
         }
         if (userLoginFail) {
-            addToast(userLoginFail, {appearance: 'error'});
+            addToast('Login ou senha inválidos', {appearance: 'error'});
         }
     }, [addToast, userLoginFail, userSuccessfullyLoggedIn]);
     

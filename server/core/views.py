@@ -3,8 +3,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, A
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
 
-from core.models import Post, Comment, UserProfile, Tag
-from core.serializers import PostSerializer, CommentSerializer, UserSerializer, TagSerializer
+from core.models import Post, Comment, UserProfile, Tag, Like
+from core.serializers import PostSerializer, CommentSerializer, UserSerializer, TagSerializer, LikeSerializer
 
 from .permissions import IsOwner, IsUser
 
@@ -13,13 +13,9 @@ class PostViewSet(ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsOwner, IsAuthenticatedOrReadOnly)
     serializer_class = PostSerializer
-    queryset = Post.objects.select_related('owner').all()
+    queryset = Post.objects.all().select_related('owner').order_by("-created_at")
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'tag__title']
-
-    def get_queryset(self):
-        posts = Post.objects.all().order_by('-created_at')
-        return posts
 
 
 class CommentViewSet(ModelViewSet):
@@ -39,3 +35,8 @@ class TagViewSet(ModelViewSet):
     queryset = Tag.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = TagSerializer
+
+class LikeViewSet(ModelViewSet):
+    queryset = Like.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly, IsOwner)
+    serializer_class = LikeSerializer

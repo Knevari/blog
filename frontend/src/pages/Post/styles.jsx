@@ -14,6 +14,7 @@ export const Title = styled.h2`
     font-family: Open Sans, sans-seriff;
     margin: 0;
     padding: 0;
+    word-wrap: break-word  
 `;
 
 export const Author = styled.span`
@@ -39,6 +40,7 @@ export const Content = styled.div`
     font-size: 1.2rem;
     text-align: justify;
     font-weight: 500;
+    
 `;
 
 export const ClockIcon = styled(FontAwesomeIcon)`

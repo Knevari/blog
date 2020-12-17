@@ -60,7 +60,7 @@ class Tag(models.Model):
 
 
 class Post(OwnerModel):
-    tag = models.ManyToManyField(Tag, blank=True)
+    tag = models.ManyToManyField(Tag, related_name='tags', blank=True)
 
     title = models.CharField(
         _("post title"),
@@ -81,12 +81,18 @@ class Post(OwnerModel):
     def __str__(self):
         return self.title
 
-    def save(self, *args, **kwargs):
-        print(args)
-        print(dir(self))
-        # super(Post, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     print(args)
+    #     print(dir(self))
+    #     # super(Post, self).save(*args, **kwargs)
 
 
+class Like(OwnerModel):
+    post = models.OneToOneField(Post, on_delete=models.CASCADE, primary_key=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def count(self):
+        return Like.objects.filter(like_post=self.post.id).aggregate(Count('pk'))
 
 class Comment(OwnerModel):
     post = models.ForeignKey(

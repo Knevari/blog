@@ -38,7 +38,7 @@ const Posts = ({ history }) => {
                 <Center>
                     <Loader
                         type="Puff"
-                        color="#00BFFF"
+                        color="#888888"
                         height={100}
                         width={100}
                         timeout={3000}    
