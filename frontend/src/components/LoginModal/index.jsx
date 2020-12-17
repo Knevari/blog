@@ -63,30 +63,29 @@ const LoginModal = () => {
     
 
     const onSubmit = data => dispatch(login(data.username, data.password));
-        
-    
-        return (
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                contentLabel="Example Modal"
-                style={customStyles}
-            >
 
-                <Title>Login</Title>
+    return (
+        <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            contentLabel="Example Modal"
+            style={customStyles}
+        >
 
-                <LoginForm onSubmit={handleSubmit(onSubmit)}>
-                    <FormSet>
-                        <Label htmlFor="username">Username </Label>
-                        <Input ref={register} type="text" name="username" />
-                    </FormSet>
-                    <FormSet>
-                        <Label htmlFor="password">Password </Label>
-                        <Input ref={register} type="password" name="password" />
-                    </FormSet>
-                    <SubmitButton type="submit">Entrar</SubmitButton>
-                </LoginForm>
-            </Modal>
+            <Title>Login</Title>
+
+            <LoginForm onSubmit={handleSubmit(onSubmit)}>
+                <FormSet>
+                    <Label htmlFor="username">Username </Label>
+                    <Input ref={register} type="text" name="username" />
+                </FormSet>
+                <FormSet>
+                    <Label htmlFor="password">Password </Label>
+                    <Input ref={register} type="password" name="password" />
+                </FormSet>
+                <SubmitButton type="submit">Entrar</SubmitButton>
+            </LoginForm>
+        </Modal>
     )
 }
 export default LoginModal;

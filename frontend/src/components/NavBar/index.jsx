@@ -47,7 +47,7 @@ const NavBar = () => {
                                 <NavIcon icon={faEdit} />&nbsp;
                                 <span>Novo Post</span>
                             </NavItem>
-                            <NavItem>
+                            <NavItem nohover>
                                 <span>Oi, {username}</span>
                             </NavItem>
                         </>

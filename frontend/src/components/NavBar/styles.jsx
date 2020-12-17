@@ -48,12 +48,14 @@ export const NavItem = styled(Link)`
 
     background-color: ${props => props.authentication ? "#777" : "transparent"};
 
-    &:hover{
-        opacity: 0.9;
-    }
+    ${props => !props.nohover && `
+        &:hover{
+            opacity: 0.9;
+        }
+    `}
 `;
 
 export const NavIcon = styled(FontAwesomeIcon)`
     color: white;
-    font-size: 1.1rem;
+    font-size: 1rem;
 `;

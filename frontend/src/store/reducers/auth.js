@@ -1,8 +1,9 @@
 export const userConstants = {
-    LOGIN_REQUEST: 'USERS_LOGIN_REQUEST',
-    LOGIN_SUCCESS: 'USERS_LOGIN_SUCCESS',
-    LOGIN_FAILURE: 'USERS_LOGIN_FAILURE',
-    LOGOUT: 'USERS_LOGOUT'
+    LOGIN_REQUEST: 'AUTH_LOGIN_REQUEST',
+    LOGIN_SUCCESS: 'AUTH_LOGIN_SUCCESS',
+    LOGIN_FAILURE: 'AUTH_LOGIN_FAILURE',
+    SET_TOKEN: 'AUTH_SET_TOKEN',
+    LOGOUT: 'AUTH_LOGOUT'
 };
 
 const user = JSON.parse(localStorage.getItem('user'));
@@ -13,7 +14,7 @@ const initialState = {
     error: '',
     user: {
         token: user && user.token ? user.token : null,
-        username: null,
+        username: user && user.username ? user.username : null,
     }
 }
 
@@ -52,6 +53,12 @@ export default function authReducer(state = initialState, action) {
                 },
                 error: action.error
             };
+        }
+        case userConstants.SET_TOKEN: {
+            return {
+                ...state,
+                userSuccessfullyLoggedIn: false,
+            }
         }
         case userConstants.LOGOUT: {
             return {

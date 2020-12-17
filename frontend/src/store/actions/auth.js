@@ -4,6 +4,14 @@ import APIURL from '../../config/'
 import axios from 'axios';
 import modalActions from './modal';
 
+const setToken = (token, username) => {
+    localStorage.setItem("user", JSON.stringify({
+        token,
+        username
+    }))
+    return { type: userConstants.SET_TOKEN }
+}
+
 export const login = (username, password) => {
     const request = () => ({ type: userConstants.LOGIN_REQUEST })
     const success = (token, username) => ({
@@ -20,19 +28,19 @@ export const login = (username, password) => {
                 username,
                 password
             });
-            localStorage.setItem("token", response.data.token)
-            dispatch(success(response.data.token, username));      
-            dispatch(modalActions.toggleModal(false));
+            dispatch(success(response.data.token, username))
+            dispatch(setToken(response.data.token, username))
+            dispatch(modalActions.toggleModal(false))
         }
         catch(error){
             console.log(error.message);
-            dispatch(failure(error.message));
+            dispatch(failure(error.message))
         }
     }
 }
 
 export function logout(){
-    localStorage.removeItem("token")
-    return { type: userConstants.LOGOUT };
+    localStorage.removeItem("user")
+    return { type: userConstants.LOGOUT }
 }
 
