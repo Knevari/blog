@@ -1,5 +1,5 @@
 import { Container, Center } from '../../styles'
-
+import { CommentEditor } from '../../components/CommentEditor/index'
 import { useQuery } from 'react-query';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux'
@@ -23,7 +23,9 @@ import {
 
 const NewPost = () => {
     const user = useSelector(state => state.auth.user);
-    const { register, handleSubmit, reset } = useForm();
+    const { register, handleSubmit, formState, reset } = useForm({
+        mode: "onChange"
+      });
     const { addToast } = useToasts();
 
     function fetchTags(id) {
@@ -46,11 +48,14 @@ const NewPost = () => {
             .catch(error => {
                 console.log(error.response);
                 const error_messages = error.response.data
-                for (let err in error_messages) {
-                    let message = error_messages[err]
-                    if (Array.isArray(message)) message = message.join("\n")
-                    addToast(`${err}: ${message}`, { appearance: 'error' });
+                if(error.response.status == 400){
+                    for (let err in error_messages) {
+                        let message = error_messages[err]
+                        if (Array.isArray(message)) message = message.join("\n")
+                        addToast(`${err}: ${message}`, { appearance: 'error' });
+                    }
                 }
+                else addToast(`${error_messages}`, { appearance: 'error' });
                 return error_messages;
             })
     }
@@ -99,7 +104,7 @@ const NewPost = () => {
                                 </option>
                             ))}
                         </SelectTags>
-                        <Save type="submit" ref={register} setT>Salvar</Save>
+                        <Save type="submit" ref={register} disabled={!formState.isSubmitting}>Salvar</Save>
                     </PostContainer>
                 </form>
             )}

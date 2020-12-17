@@ -55,7 +55,8 @@ const Posts = ({ history }) => {
                 title,
                 author: { username },
                 content,
-                likes
+                likes,
+                tag
             }) => (
                     <Post
                         onClick={() => goToPost(id)}
@@ -64,6 +65,7 @@ const Posts = ({ history }) => {
                         username={username}
                         content={content.slice(0, 400)}
                         likes={likes}
+                        tags={tag}
                     />
                 ))}
         </Container>

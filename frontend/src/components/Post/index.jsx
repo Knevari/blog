@@ -16,14 +16,13 @@ import {
 import { faComments, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { useQuery } from 'react-query'
 
-const Post = ({ title, content, likes, username, onClick }) => (
+const Post = ({ title, content, likes, username, onClick, tags }) => (
     <PostContainer onClick={onClick}>
         <PostOwner>Postado por {username}</PostOwner>
         <OverlayContainer>
             <PostTitle>{title}</PostTitle>
             <TagsContainer>
-                <PostTags color="#888">Esta é uma tag</PostTags>
-                <PostTags color="#888">Outra tag</PostTags>
+                {tags && tags.map(tag => <PostTags color={tag.color}>{tag.title}</PostTags>)}
             </TagsContainer>
             <PostContent>{content}</PostContent>
             {content.length > 300 ? <Overlay /> : null}

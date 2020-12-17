@@ -23,7 +23,9 @@ import {
 } from './styles'
 
 import { faClock } from '@fortawesome/free-solid-svg-icons'
-import ScrollToTop from '../../components/ScrollToTop';
+
+import ScrollToTop from '../../components/ScrollToTop'
+import CommentEditor from '../../components/CommentEditor'
 
 function fetchCurrentPost(id) {
     return async () => {
@@ -97,6 +99,8 @@ const Post = ({ match: { params: {id} } }) => {
                     </Meta>
 
                     <Content dangerouslySetInnerHTML={{__html: post.content}} />
+
+                    <CommentEditor />
                 </PostContainer>
             )}
         </Container>

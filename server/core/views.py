@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, AllowAny
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import action
 from rest_framework import filters
 
 from core.models import Post, Comment, UserProfile, Tag, Like
@@ -17,6 +18,9 @@ class PostViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'tag__title']
 
+    @action(detail=True, methods=['get'])
+    def comments(self):
+        return Comment.objects.all().filter(owner=self.owner)
 
 class CommentViewSet(ModelViewSet):
     authentication_classes = (TokenAuthentication,)

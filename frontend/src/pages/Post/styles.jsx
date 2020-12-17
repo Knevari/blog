@@ -40,7 +40,7 @@ export const Content = styled.div`
     font-size: 1.2rem;
     text-align: justify;
     font-weight: 500;
-    
+    margin-bottom: 24px;
 `;
 
 export const ClockIcon = styled(FontAwesomeIcon)`
