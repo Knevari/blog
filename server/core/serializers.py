@@ -55,7 +55,8 @@ class LikeSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     author = UserProfileSerializer(source="owner", read_only=True)
-    owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    current_user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     tags = TagSerializer(source="tag", read_only=True, many=True)
     comment_count = serializers.SerializerMethodField(read_only=True)
     likes = serializers.SerializerMethodField(read_only=True)
@@ -72,8 +73,8 @@ class PostSerializer(serializers.ModelSerializer):
         extra_kwargs = {"tag": {"required": False}}
 
     def create(self, validated_data):
-        author_post = validated_data.pop('owner')
-        owner = UserProfile.objects.get(user__username=author_post)
+        author_post = validated_data.pop('current_user')
+        owner = UserProfile.objects.get(user=author_post)
         tags = validated_data.pop('tag')
         post = Post.objects.create(owner=owner, **validated_data)
         post.tag.set(tags)
