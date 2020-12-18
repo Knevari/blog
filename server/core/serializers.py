@@ -4,6 +4,16 @@ from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from django.conf import settings
 
+
+class CurrentUserProfile(object):
+    def set_context(self, serializer_field):
+        self.user_obj = UserProfile.objects.get(
+            user=serializer_field.context['request'].user)
+
+    def __call__(self):
+        return self.user_obj
+
+
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
@@ -53,9 +63,10 @@ class LikeSerializer(serializers.ModelSerializer):
         model = Like
         fields = ("id", "post", "author", "created_at")
 
+
 class PostSerializer(serializers.ModelSerializer):
     author = UserProfileSerializer(source="owner", read_only=True)
-    current_user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    # current_user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     tags = TagSerializer(source="tag", read_only=True, many=True)
     comment_count = serializers.SerializerMethodField(read_only=True)
@@ -69,12 +80,12 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ("author", "id", "title", "content", "tag", "created_at", "owner", "tags", "comment_count", "likes")
+        fields = ("author", "id", "title", "content", "tag",
+                  "created_at", "owner", "tags", "comment_count", "likes")
         extra_kwargs = {"tag": {"required": False}}
 
     def create(self, validated_data):
-        author_post = validated_data.pop('current_user')
-        owner = UserProfile.objects.get(user=author_post)
+        owner = UserProfile.objects.get(user=serializers.CurrentUserDefault())
         tags = validated_data.pop('tag')
         post = Post.objects.create(owner=owner, **validated_data)
         post.tag.set(tags)
@@ -82,9 +93,19 @@ class PostSerializer(serializers.ModelSerializer):
         return post
 
 
-class CommentSerializer(serializers.ModelSerializer):
-    author = UserProfileSerializer(source="owner", read_only=True)
+class CommentListSerializer(serializers.ModelSerializer):
+    owner = UserProfileSerializer()
 
     class Meta:
         model = Comment
-        fields = ("id", "content", "created_at", "author", "post")
+        fields = ("id", "content", "created_at", "owner", "post")
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    owner = serializers.HiddenField(
+        default=CurrentUserProfile()
+    )
+
+    class Meta:
+        model = Comment
+        fields = ("id", "content", "owner", "post")

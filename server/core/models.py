@@ -24,7 +24,7 @@ class OwnerModel(models.Model):
         UserProfile,
         on_delete=models.CASCADE,
         blank=False,
-        null=False
+        null=False,
     )
 
     class Meta:

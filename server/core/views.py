@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 
 from core.models import Post, Comment, UserProfile, Tag, Like
-from core.serializers import PostSerializer, CommentSerializer, UserSerializer, TagSerializer, LikeSerializer
+from core.serializers import PostSerializer, CommentSerializer, CommentListSerializer, UserSerializer, TagSerializer, LikeSerializer
 
 from .permissions import IsOwner, IsUser
 
@@ -31,8 +31,13 @@ class PostViewSet(ModelViewSet):
 class CommentViewSet(ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsOwner, IsAuthenticatedOrReadOnly)
-    serializer_class = CommentSerializer
     queryset = Comment.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == 'list' or self.action == 'retrieve':
+            return CommentListSerializer
+        else:
+            return CommentSerializer
 
 
 class UserViewSet(ModelViewSet):
